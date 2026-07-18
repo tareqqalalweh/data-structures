@@ -1,0 +1,118 @@
+#include <iostream>
+
+using namespace std;
+const int maxSize= 100;
+
+
+template <class T>
+class List{
+    T arr[maxSize];
+    int count;
+
+public:
+    List(){
+        count=0;
+    }
+
+
+    bool empty(){
+        return count==0;
+     }
+
+     int size(){
+         return count;
+     }
+    void insert(int pos, T val){
+      if(maxSize == count || pos<0 || pos> count) return;
+
+      for(int i= count-1; i>= pos; i--)
+        arr[i+1]= arr[i];
+
+      arr[pos]= val;
+      count++;
+    }
+
+
+    void remove(int pos){
+        if(empty() || pos<0 || pos> count) return;
+
+        for(int i=pos; i< count; i++)
+            arr[i] = arr[i+1];
+
+       count--;
+
+    }
+
+    void replace(int pos, T newVal){
+        if(empty() || pos<0 || pos> count) return;
+
+        arr[pos] = newVal;
+    }
+
+
+    T retreive(int pos){
+      if(empty() || pos<0 || pos> count) throw runtime_error("Invalid");
+
+      return arr[pos];
+    }
+};
+
+template <class T>
+void print(List<T>  l){
+  if(l.empty()) return;
+  for(int i= 0; i<l.size();i++)
+    cout<< l.retreive(i)<< " ";
+
+  cout<<endl;
+
+}
+
+template <class T>
+void removeAllByVal(int val, List<T> &l){
+    if(l.empty()) return;
+
+    for(int i= 0; i<l.size(); i++)
+    {
+        if(l.retreive(i)== val){
+            l.remove(i);
+      i--;
+        }
+    }
+
+
+
+}
+
+//Write a function that replace all values in two lists, l1 and l2 may not have the same size
+template <class T>
+void replaceAllVals(List<T> l1, List<T> l2){
+   if(l1.empty() || l2.empty() )return;
+   // Continue
+}
+
+int main() {
+
+   List<int> l1;
+   l1.insert(0,10);
+   l1.insert(1,30);
+   l1.insert(2,30);
+   l1.insert(1,20);
+    l1.insert(4,30);
+   l1.insert(2,30);
+   l1.insert(1,40);
+
+
+   List<int> l2;
+
+
+   print(l1);
+
+   //removeAllByVal(30, l1);
+  // print(l1);
+
+
+
+
+
+    return 0;
+}
