@@ -1,0 +1,198 @@
+#include <iostream>
+using namespace std;
+
+template <class T>//linked list
+struct Node{
+T data;
+Node *next;
+Node(){
+next = 0;
+}
+Node(T val){
+data = val;
+next = 0;
+}
+};
+
+template <class T>
+void addLast(T data, Node<T>*&head){
+Node<T> *current = head;
+if(head==0){
+head= new Node<T> (data);
+return;
+}
+while(current->next != NULL){
+current= current->next;
+}
+current->next= new Node<T> (data);
+}
+
+template <class T>
+void addFirst(Node<T>*&head, T data){
+Node<T> *temp= new Node<T>(data);
+temp->next= head;
+head = temp;
+}
+
+template <class T>
+void deleteFirst(Node<T>* &head) {
+if (head == NULL) return;
+
+Node<T>* temp = head;
+head = head->next;
+delete temp;
+}
+
+
+template <class T>
+void deleteLast(Node<T>* &head){
+
+    if(head== 0) return;
+    if(head->next == 0){
+        delete head;
+        head =0;
+    }
+
+    Node<T> *first=0, *sec=head;
+
+    while(sec->next != 0){
+        first= sec;
+        sec= sec->next;
+    }
+    delete sec;
+    first->next = 0;
+}
+
+
+
+template <class T>
+void addByPosition(Node<T>* &head, T val, int pos){
+
+    if (pos <= 0) {
+        cout << "Invalid position\n";
+        return;
+    }
+
+    if (pos == 1) {
+        addFirst(head, val);
+        return;
+    }
+
+    Node<T>* temp = new Node<T>(val);
+    Node<T>* sec = head,* first = head;
+
+
+    int count = 1;
+    while(count < pos && sec!=0) {
+        first = sec;
+        sec = sec->next;
+        count++;
+    }
+
+    if (count < pos) {
+        cout << "Can't add the new item, position out of range\n";
+        return;
+    }
+
+    first->next = temp;
+    temp->next = sec;
+}
+
+
+
+template <class T>
+void deleteByPosition(Node<T>* &head, int pos){
+
+    if(head==0) return;
+
+    if (pos <= 0) {
+        cout << "Can't be deleted, Invalid position\n";
+        return;
+    }
+
+    if (pos == 1) {
+        deleteFirst(head);
+        return;
+    }
+
+    Node<T>* sec = head,* first = head;
+
+    int count=1;
+    while(count < pos && sec != 0) {
+        first = sec;
+        sec = sec->next;
+        count++;
+    }
+
+    if (count < pos || sec == 0) {
+        cout << "Can't delete the item, position out of range\n";
+        return;
+    }
+
+    first->next = sec->next;
+    delete sec;
+}
+
+template <class T>
+void distructLinkedList(Node<T>* &head){
+    Node<T> *current;
+    while(head!= 0){
+        current = head;
+        head = head->next;
+        delete current;
+    }
+    cout<< "All Node deleted from Heap! \n";
+}
+
+template <class T>
+bool searchVal(Node<T>* &head, T val){
+    Node<T> *current = head;
+    while(current!= 0){
+        if(current->data == val)
+            return true;
+
+        current= current->next;
+    }
+    return false;
+}
+
+template <class T>
+void display(Node<T> *head){
+while(head!=0){
+cout<<head->data <<" , ";
+head= head->next;
+}
+cout<<endl;
+}
+int main()
+{
+Node<int> *head = 0;
+addLast(3, head);
+addLast(4,head);
+addFirst(head,10);
+addByPosition(head, 400,2);
+
+display(head);
+
+deleteByPosition(head,4);
+
+display(head);
+
+deleteByPosition(head,5);
+display(head);
+
+
+if(searchVal(head, 5))
+    cout<< "The value 3 exists in the linked list \n";
+else
+    cout<< "The value 3 does not exist in the linked list\n";
+
+
+distructLinkedList(head);
+cout<<"-------------\n";
+display(head);
+
+
+
+return 0;
+}
